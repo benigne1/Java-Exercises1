@@ -3,8 +3,8 @@ import java.util.*;
 public class StudentManager {
     ArrayList<Student> list = new ArrayList<>();
 
-    // ---------- Part C ----------
-    void add(Student s) {                              // 1 + 10 + rules
+
+    void add(Student s) {                              
         if (find(s.id) != null) { System.out.println("Duplicate ID " + s.id); return; }
         if (s.marks.length != 5) { System.out.println("Need 5 marks"); return; }
         for (int m : s.marks)
@@ -12,30 +12,30 @@ public class StudentManager {
         list.add(s);
     }
 
-    void showAll() { for (Student s : list) System.out.println(s); }   // 2
+    void showAll() { for (Student s : list) System.out.println(s); }   
 
-    Student find(int id) {                             // 3
+    Student find(int id) {                             
         for (Student s : list) if (s.id == id) return s;
         return null;
     }
 
-    ArrayList<Student> byDept(String d) {              // 4
+    ArrayList<Student> byDept(String d) {             
         ArrayList<Student> r = new ArrayList<>();
         for (Student s : list) if (s.dept.equals(d)) r.add(s);
         return r;
     }
 
-    void changeDept(int id, String d) {                // 5
+    void changeDept(int id, String d) {               
         Student s = find(id);
         if (s != null) s.dept = d;
     }
 
-    void remove(int id) {                              // 6
+    void remove(int id) {                         
         Student s = find(id);
         if (s != null) list.remove(s);
     }
 
-    ArrayList<Student> sorted() {                      // copy sorted by average, highest first
+    ArrayList<Student> sorted() {                      
         ArrayList<Student> c = new ArrayList<>(list);
         for (int i = 0; i < c.size(); i++)
             for (int j = 0; j < c.size() - 1; j++)
@@ -45,16 +45,16 @@ public class StudentManager {
         return c;
     }
 
-    void topFive() {                                   // 7
+    void topFive() {                                   
         ArrayList<Student> c = sorted();
         for (int i = 0; i < 5 && i < c.size(); i++) System.out.println(c.get(i));
     }
 
-    void below50() {                                   // 8
+    void below50() {                                   
         for (Student s : list) if (s.avg() < 50) System.out.println(s);
     }
 
-    void countDept() {                                 // 9
+    void countDept() {                                 
         ArrayList<String> seen = new ArrayList<>();
         for (Student s : list) {
             if (seen.contains(s.dept)) continue;
@@ -65,20 +65,20 @@ public class StudentManager {
         }
     }
 
-    // 11: TIE RULE: sorted by average; equal averages keep the order they were added.
+    
     Student third() {
         ArrayList<Student> c = sorted();
         return c.size() >= 3 ? c.get(2) : null;
     }
 
-    ArrayList<Student> passedAllList() {               // 12
+    ArrayList<Student> passedAllList() {            
         ArrayList<Student> r = new ArrayList<>();
         for (Student s : list) if (s.passedAll()) r.add(s);
         return r;
     }
 
     // ---------- Part B ----------
-    void highLow() {                                   // B1 + B2
+    void highLow() {                                   
         for (Student s : list) {
             int hi = s.marks[0], lo = s.marks[0];
             for (int m : s.marks) {
@@ -89,32 +89,32 @@ public class StudentManager {
         }
     }
 
-    Student best() {                                   // B3
+    Student best() {                                
         Student b = list.get(0);
         for (Student s : list) if (s.avg() > b.avg()) b = s;
         return b;
     }
 
-    int countPassedAll() {                             // B4
+    int countPassedAll() {                           
         int n = 0;
         for (Student s : list) if (s.passedAll()) n++;
         return n;
     }
 
-    void sortMarks(int[] a) {                          // B5 bubble sort
+    void sortMarks(int[] a) {                          
         for (int i = 0; i < a.length; i++)
             for (int j = 0; j < a.length - 1; j++)
                 if (a[j] > a[j + 1]) { int t = a[j]; a[j] = a[j + 1]; a[j + 1] = t; }
     }
 
-    double classAvg() {                                // B7
+    double classAvg() {                                
         int sum = 0, n = 0;
         for (Student s : list)
             for (int m : s.marks) { sum += m; n++; }
         return (double) sum / n;
     }
 
-    int[] aboveAvg() {                                 // B6
+    int[] aboveAvg() {                                 
         double avg = classAvg();
         int n = 0;
         for (Student s : list) for (int m : s.marks) if (m > avg) n++;
