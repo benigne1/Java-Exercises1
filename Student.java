@@ -18,5 +18,5 @@ public class Student {
         return true;
     }
 
-    public String toString() { return id + " " + name + " " + dept + " avg=" + avg(); }
+    public String toString(){ return id + " " + name + " " + dept + " avg=" + avg(); }
 }

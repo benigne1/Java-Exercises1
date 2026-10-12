@@ -1,0 +1,75 @@
+import java.util.ArrayList;
+
+// =====================================================
+//  Main class: creates books and tests everything
+// =====================================================
+public class LibrarySystem {
+
+    // Small helper to print a list of books
+    public static void printList(String title, ArrayList<Book> list) {
+        System.out.println("\n===== " + title + " =====");
+        if (list.size() == 0) {
+            System.out.println("(none)");
+        }
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i));
+        }
+    }
+
+    public static void main(String[] args) {
+
+        LibraryManager library = new LibraryManager();
+
+        // 11 books
+        library.addBook(new Book(1, "Clean Code", "Robert C. Martin", "Programming", true));
+        library.addBook(new Book(2, "Effective Java", "Joshua Bloch", "Programming", true));
+        library.addBook(new Book(3, "Things Fall Apart", "Chinua Achebe", "Fiction", true));
+        library.addBook(new Book(4, "A Brief History of Time", "Stephen Hawking", "Science", false));
+        library.addBook(new Book(5, "The Pragmatic Programmer", "Andrew Hunt", "Programming", true));
+        library.addBook(new Book(6, "Half of a Yellow Sun", "Chimamanda Adichie", "Fiction", true));
+        library.addBook(new Book(7, "Cosmos", "Carl Sagan", "Science", true));
+        library.addBook(new Book(8, "Introduction to Algorithms", "Thomas Cormen", "Computer Science", false));
+        library.addBook(new Book(9, "Old Network Manual", "Unknown Author", "Withdrawn", true));
+        library.addBook(new Book(10, "Americanah", "Chimamanda Adichie", "Fiction", true));
+        library.addBook(new Book(11, "Head First Java", "Kathy Sierra", "Programming", true));
+
+        // Test the rules: duplicate ID and empty text
+        System.out.println("--- Testing the rules ---");
+        library.addBook(new Book(1, "Another Book", "Someone", "Fiction", true));
+        library.addBook(new Book(50, "", "Someone", "Fiction", true));
+        library.addBook(new Book(51, "No Author Book", "  ", "Fiction", true));
+
+        System.out.println();
+        library.displayAll();
+
+        System.out.println("\nSearch ID 3: " + library.findById(3));
+        System.out.println("Search ID 99: " + library.findById(99));
+        printList("Titles containing 'java'", library.searchByTitle("java"));
+        printList("Books by Chimamanda Adichie", library.searchByAuthor("Chimamanda Adichie"));
+        printList("Category: Science", library.filterByCategory("Science"));
+
+        System.out.println("\nUpdate book 7 author: " + library.updateBook(7, "", "Carl E. Sagan", ""));
+        System.out.println("Borrow book 1: " + library.borrowBook(1));
+        System.out.println("Borrow book 1 again: " + library.borrowBook(1));
+        System.out.println("Return book 4: " + library.returnBook(4));
+        System.out.println("Return book 4 again: " + library.returnBook(4));
+
+        System.out.println("\nTotal books: " + library.countBooks());
+        System.out.println("Available books: " + library.countAvailable());
+        printList("Borrowed books", library.findBorrowed());
+
+        System.out.println("\nMost common category: " + library.mostCommonCategory());
+
+        System.out.println("Removed 'Withdrawn' books: " + library.removeBooksByCategory("Withdrawn"));
+        System.out.println("Remove book 2: " + library.removeBook(2));
+
+        System.out.println();
+        System.out.println(library.checkAvailability(1));
+        System.out.println(library.checkAvailability(3));
+        System.out.println(library.checkAvailability(99));
+
+        library.sortByTitle();
+        System.out.println();
+        library.displayAll();
+    }
+}
